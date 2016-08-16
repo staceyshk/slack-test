@@ -1,13 +1,17 @@
 var photoListing = [];
 
-var flickrPhotoSetUrl = 'https://api.flickr.com/services/rest/?method=flickr.photosets.getPhotos&api_key=f596922296cb3040def0a5b0cdd3eb7a&photoset_id=72157641470493775&user_id=118690346%40N08&format=json&nojsoncallback=1';
+var flickrPhotoSetUrl = 'https://api.flickr.com/services/rest/?method='
+  +'flickr.photosets.getPhotos&api_key=f596922296cb3040def0a5b0cdd3eb7a&'
+  +'photoset_id=72157641470493775&user_id=118690346%40N08&format=json&nojsoncallback=1';
 getJSONForRequest(flickrPhotoSetUrl, getPhotoInfo, console.log);
 
 function getPhotoInfo(json) {
   var photoJson = json.photoset.photo;
 
   for (var i = 0; i < photoJson.length; i++) {
-    var flickerInfoUrl = 'https://api.flickr.com/services/rest/?method=flickr.photos.getInfo&api_key=f596922296cb3040def0a5b0cdd3eb7a&photo_id=12759547784&format=json&nojsoncallback=1';
+    var flickerInfoUrl = 'https://api.flickr.com/services/rest/?method='
+      +'flickr.photos.getInfo&api_key=f596922296cb3040def0a5b0cdd3eb7a'
+      +'&photo_id=12759547784&format=json&nojsoncallback=1';
     getJSONForRequest(flickerInfoUrl, addPhotoInfo, photoJson[i].id);   
   }
 }
@@ -15,7 +19,9 @@ function getPhotoInfo(json) {
 function addPhotoInfo(photoInfoJson, photoId) {
   photoListing.push({photoId: photoId, photoInfo: photoInfoJson});
 
-  var flickrImageSizesUrl = 'https://api.flickr.com/services/rest/?method=flickr.photos.getSizes&api_key=f596922296cb3040def0a5b0cdd3eb7a&photo_id={id}&format=json&nojsoncallback=1'
+  var flickrImageSizesUrl = 'https://api.flickr.com/services/rest/?method='
+    +'flickr.photos.getSizes&api_key=f596922296cb3040def0a5b0cdd3eb7a'
+    +'&photo_id={id}&format=json&nojsoncallback=1'
       .replace('{id}', photoId); 
   getJSONForRequest(flickrImageSizesUrl, addPhotoToList, photoId);
 }
