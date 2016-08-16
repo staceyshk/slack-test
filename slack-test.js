@@ -18,6 +18,7 @@ function getPhotoInfo(json) {
 
 function addPhotoInfo(photoInfoJson, photoId) {
   photoListing.push({photoId: photoId, photoInfo: photoInfoJson});
+  console.log(photoInfoJson);
 
   var flickrImageSizesUrl = 'https://api.flickr.com/services/rest/?method='
     +'flickr.photos.getSizes&api_key=f596922296cb3040def0a5b0cdd3eb7a'
@@ -32,28 +33,36 @@ function addPhotoToList(photoSizesJson, photoId) {
   photoObj.photoSizes = photoSizesJson;
 
   var mainSection = document.getElementById('photo-section');
-  var newSpan = document.createElement('span');
-  newSpan.onclick = testImgClick;
-  var newImg = document.createElement('img');
-  // Get the thumbnail size
-  newImg.setAttribute('src', photoSizesJson.sizes.size[3].source);
+  var newDiv = document.createElement('div');
+  newDiv.setAttribute('class', 'float-left');
 
-  var pNode = document.createElement('p');
-  var textnode = document.createTextNode(photoObj.photoInfo.photo.title._content);  
-  pNode.appendChild(textnode);
-  newSpan.appendChild(pNode);  
+  // Get the thumbnail size
+  var newImg = document.createElement('img');
+  newImg.setAttribute('src', photoSizesJson.sizes.size[3].source);
+  newImg.onclick = imgClick;
+
   var input = document.createElement('input');
   input.setAttribute('type', 'hidden');
   input.setAttribute('name', 'id');
   input.setAttribute('value', photoId);
 
-  newSpan.appendChild(newImg);
-  newSpan.appendChild(input);
-  mainSection.appendChild(newSpan);
+  newDiv.appendChild(newImg);
+  newDiv.appendChild(input);
+
+  var pNode = document.createElement('p');
+  var textnode = document.createTextNode(photoObj.photoInfo.photo.title._content);  
+  pNode.appendChild(textnode);
+  newDiv.appendChild(pNode);  
+
+  mainSection.appendChild(newDiv);
 }
 
-function testImgClick(event) {
+function imgClick(event) {
   var photoId = event.target.nextSibling.value;
+  setOverlayImage(photoId);
+}
+
+function setOverlayImage(photoId) {
   var largerImg = document.getElementById('overlay-img');
   var photoObj = findPhotoObj(photoId);
   // Get Medium size photo
@@ -81,6 +90,14 @@ function findPhotoObj(photoId) {
   }
 
   return null;
+}
+
+function nextPhoto(photoId) {
+
+}
+
+function previousPhoto(photoId) {
+
 }
 
 //optional param id for any object you want embedded
