@@ -1,3 +1,27 @@
-.test {
-  
+body {
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #666699;
+  color: #fff;
+}
+
+#overlay {
+  visibility: hidden;
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width:100%;
+  height:100%;
+  text-align:center;
+  z-index: 1000;
+}
+
+#overlay div {
+  max-width: 800px;
+  margin: 10px auto;
+  background-color: #fff;
+  border:1px solid #000;
+  padding:15px;
+  text-align:center;
+  color: #000;
 }
