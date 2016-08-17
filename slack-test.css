@@ -29,13 +29,14 @@ p {
 #overlay #overlay-container {
   max-width: 800px;
   margin: 0 auto;
-  background-color: #e0e0eb; 
+  background-color: #fff; 
   text-align:center;
   color: #000;
   padding-top: 5px;
   -webkit-border-radius: 8px; 
   -moz-border-radius: 8px; 
   border-radius: 8px; 
+  border: 1px solid #000;
 }
 
 #overlay #previous {

@@ -13,7 +13,7 @@ window.onload = function () {
   var flickrPhotoSetUrl = 'https://api.flickr.com/services/rest/?method='
     +'flickr.photosets.getPhotos&api_key=f596922296cb3040def0a5b0cdd3eb7a&'
     +'photoset_id=72157641470493775&user_id=118690346%40N08&format=json&nojsoncallback=1';
-  getJSONForRequest(flickrPhotoSetUrl, getPhotoInfo, console.log);
+  getJSONForRequest(flickrPhotoSetUrl, getPhotoInfo);
 
   //Getting the photo info (such as the title)
   function getPhotoInfo(json) {
@@ -69,7 +69,6 @@ window.onload = function () {
     mainSection.appendChild(newDiv);
   }
 
-  // Find the images photoId
   function imgClick(event) {
     var photoId = event.target.nextSibling.value;
     setOverlayImage(photoId);
