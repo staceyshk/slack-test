@@ -69,6 +69,7 @@ window.onload = function () {
     mainSection.appendChild(newDiv);
   }
 
+  // Find the images photoId
   function imgClick(event) {
     var photoId = event.target.nextSibling.value;
     setOverlayImage(photoId);

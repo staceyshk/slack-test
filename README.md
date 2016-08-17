@@ -7,6 +7,10 @@ The only thing I couldn't figure out is the titles are all the same. I checked t
 
 Anyhoo, I am loading individual titles they just all look the same.
 
+https://staceyshk.github.io
+
 Cheers!
 
 Stacey
+
+P.S. I might be colorful but I'm not excellent at choosing web colors. :)
