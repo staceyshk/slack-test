@@ -1,10 +1,13 @@
 var photoListing = [];
+var currentPhoto;
 
+//Start getting the photo set
 var flickrPhotoSetUrl = 'https://api.flickr.com/services/rest/?method='
   +'flickr.photosets.getPhotos&api_key=f596922296cb3040def0a5b0cdd3eb7a&'
   +'photoset_id=72157641470493775&user_id=118690346%40N08&format=json&nojsoncallback=1';
 getJSONForRequest(flickrPhotoSetUrl, getPhotoInfo, console.log);
 
+//Getting the photo info (such as the title)
 function getPhotoInfo(json) {
   var photoJson = json.photoset.photo;
 
@@ -18,16 +21,16 @@ function getPhotoInfo(json) {
 
 function addPhotoInfo(photoInfoJson, photoId) {
   photoListing.push({photoId: photoId, photoInfo: photoInfoJson});
-  console.log(photoInfoJson);
 
   var flickrImageSizesUrl = 'https://api.flickr.com/services/rest/?method='
     +'flickr.photos.getSizes&api_key=f596922296cb3040def0a5b0cdd3eb7a'
     +'&photo_id={id}&format=json&nojsoncallback=1'
       .replace('{id}', photoId); 
-  getJSONForRequest(flickrImageSizesUrl, addPhotoToList, photoId);
+  getJSONForRequest(flickrImageSizesUrl, addPhotoSizes, photoId);
 }
 
-function addPhotoToList(photoSizesJson, photoId) {
+// The images themselves come from a different api call
+function addPhotoSizes(photoSizesJson, photoId) {
   // Add photos to array to load larger images later
   var photoObj = findPhotoObj(photoId)
   photoObj.photoSizes = photoSizesJson;
@@ -46,14 +49,13 @@ function addPhotoToList(photoSizesJson, photoId) {
   input.setAttribute('name', 'id');
   input.setAttribute('value', photoId);
 
-  newDiv.appendChild(newImg);
-  newDiv.appendChild(input);
-
   var pNode = document.createElement('p');
   var textnode = document.createTextNode(photoObj.photoInfo.photo.title._content);  
   pNode.appendChild(textnode);
-  newDiv.appendChild(pNode);  
 
+  newDiv.appendChild(newImg);
+  newDiv.appendChild(input);
+  newDiv.appendChild(pNode);  
   mainSection.appendChild(newDiv);
 }
 
@@ -64,9 +66,14 @@ function imgClick(event) {
 
 function setOverlayImage(photoId) {
   var largerImg = document.getElementById('overlay-img');
-  var photoObj = findPhotoObj(photoId);
+  currentPhoto = findPhotoObj(photoId);
+
   // Get Medium size photo
-  largerImg.setAttribute('src', photoObj.photoSizes.sizes.size[6].source);
+  largerImg.setAttribute('src', currentPhoto.photoSizes.sizes.size[6].source);
+  var prevBtn = document.getElementById('previous');
+  prevBtn.onclick = previousPhoto;
+  var nextBtn = document.getElementById('next');
+  nextBtn.onclick = nextPhoto;
   // It takes a bit of time to show the image
   setTimeout(showLightbox, 500);
 }
@@ -92,12 +99,18 @@ function findPhotoObj(photoId) {
   return null;
 }
 
-function nextPhoto(photoId) {
-
+function nextPhoto() {
+  var currentIndex = photoListing.indexOf(currentPhoto); 
+  var nextIndex = (currentIndex + 1 === photoListing.length) ? 0 : currentIndex + 1;
+  console.log(nextIndex);
+  setOverlayImage(photoListing[nextIndex].photoId);
 }
 
-function previousPhoto(photoId) {
-
+function previousPhoto() {
+  var currentIndex = photoListing.indexOf(currentPhoto);
+  var previousIndex = (currentIndex - 1 < 0) ? photoListing.length - 1 : currentIndex - 1;
+  console.log(previousIndex);
+  setOverlayImage(photoListing[previousIndex].photoId);
 }
 
 //optional param id for any object you want embedded
