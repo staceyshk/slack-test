@@ -59,9 +59,8 @@ window.onload = function () {
     input.setAttribute('name', 'id');
     input.setAttribute('value', photoId);
 
-    var pNode = document.createElement('p');
-    var textnode = document.createTextNode(photoObj.photoInfo.photo.title._content);  
-    pNode.appendChild(textnode);
+    var pNode = document.createElement('p');  
+    pNode.innerHTML = photoObj.photoInfo.photo.title._content;
 
     newDiv.appendChild(newImg);
     newDiv.appendChild(input);
@@ -80,6 +79,8 @@ window.onload = function () {
 
     // Get Medium size photo
     largerImg.setAttribute('src', currentPhoto.photoSizes.sizes.size[6].source);
+    document.getElementById('title').innerHTML = currentPhoto.photoInfo.photo.title._content;
+    
     // It takes a bit of time to show the image
     setTimeout(showLightbox, 500);
   }
